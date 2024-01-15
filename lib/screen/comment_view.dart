@@ -49,7 +49,8 @@ class _CommentViewState extends ConsumerState<CommentView> {
         ),
         body: RefreshIndicator(
           // Yo chai pull to refresh ko lagi ho
-          color: Colors.red,
+          color: Colors.green,
+          backgroundColor: Colors.amberAccent,
           onRefresh: () async {
             ref.read(commentViewModelProvider.notifier).resetState();
           },

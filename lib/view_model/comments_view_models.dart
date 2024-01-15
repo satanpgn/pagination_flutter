@@ -31,7 +31,7 @@ class CommentViewModel extends StateNotifier<CommentState> {
     final hasReachedMax = currentState.hasReachedMax;
     if (!hasReachedMax) {
       // get data from data source
-      final result = await _commentDataSource.getPosts(page);
+      final result = await _commentDataSource.getComments(page);
       result.fold(
         (failure) =>
             state = state.copyWith(hasReachedMax: true, isLoading: false),

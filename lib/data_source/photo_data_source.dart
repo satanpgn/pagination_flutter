@@ -4,34 +4,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pagination_flutter/config/api_endpoints.dart';
 import 'package:pagination_flutter/config/http_service.dart';
 import 'package:pagination_flutter/failure/failure.dart';
-import 'package:pagination_flutter/model/comments.dart';
 import 'package:pagination_flutter/model/photos.dart';
 
-final commentDataSourceProvider = Provider<CommentDataSource>((ref) {
-  final dio = ref.read(httpServiceProvider);
-  return CommentDataSource(dio);
-});
+final photoDataSourceProvider = Provider.autoDispose(
+    (ref) => PhotoDataSource(ref.read(httpServiceProvider)));
 
-class CommentDataSource {
+class PhotoDataSource {
   final Dio _dio;
-  CommentDataSource(this._dio);
-
-  // get data from post with pagination
-  Future<Either<Failure, List<Comments>>> getComments(int page) async {
+  PhotoDataSource(this._dio);
+  Future<Either<Failure, List<Photos>>> getPhotos(int page) async {
     try {
       final response = await _dio.get(
-        ApiEndpoints.comments,
+        ApiEndpoints.photos,
         queryParameters: {
           '_page': page,
           '_limit': ApiEndpoints.limitPage,
         },
       );
       final data = response.data as List;
-      final posts = data.map((e) => Comments.fromJson(e)).toList();
-      return Right(posts);
+      final photos = data.map((e) => Photos.fromJson(e)).toList();
+      return Right(photos);
     } on DioException catch (e) {
       return Left(Failure(message: e.message.toString()));
     }
   }
-
 }
