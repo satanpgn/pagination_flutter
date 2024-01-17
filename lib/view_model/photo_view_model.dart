@@ -10,7 +10,9 @@ final photoViewModelProvider =
 
 class PhotoViewModel extends StateNotifier<PhotoState> {
   final PhotoDataSource _photoDataSource;
-  PhotoViewModel(this._photoDataSource) : super(PhotoState.initial());
+  PhotoViewModel(this._photoDataSource) : super(PhotoState.initial()) {
+    getPhotos();
+  }
 
   Future resetState() async {
     state = PhotoState.initial();

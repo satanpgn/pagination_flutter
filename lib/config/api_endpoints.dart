@@ -7,5 +7,5 @@ class ApiEndpoints {
   static const String comments = "comments";
   static const String photos = "photos";
 
-  static const limitPage = 10;
+  static const limitPage = 20;
 }

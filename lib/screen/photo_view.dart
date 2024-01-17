@@ -79,10 +79,48 @@ class _PhotosViewState extends ConsumerState<PhotosView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Image.network(
-                                photos.thumbnailUrl,
-                                height: 200,
-                                width: 200,
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Image.network(
+                                  photos.thumbnailUrl,
+                                  height: 200,
+                                  width: 200,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else if (loadingProgress
+                                            .expectedTotalBytes !=
+                                        null) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.red,
+                                          value: loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!,
+                                        ),
+                                      );
+                                    } else {
+                                      // If total bytes are unknown, you may want to handle it differently
+                                      return const Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.red),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    return const Center(
+                                      child: Text('Failed to load image'),
+                                    );
+                                  },
+                                ),
                               ),
                               Text(
                                 photos.title,
