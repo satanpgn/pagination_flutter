@@ -4,7 +4,6 @@ import 'package:pagination_flutter/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(
     const ProviderScope(
       child: App(),
